@@ -5,7 +5,7 @@ namespace Raven
 {
     public class Client
     {
-        protected const string BaseUrl = "https://raven.cam.ac.uk/auth/authenticate.html";
+        protected virtual string BaseUrl => "https://raven.cam.ac.uk/auth/authenticate.html";
         private readonly string _url;
 
         public Client(string url)

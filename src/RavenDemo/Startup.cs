@@ -42,7 +42,7 @@ namespace RavenDemo
 
         public virtual Client RavenClientProvider(IServiceProvider provider)
         {
-            return new TestClient("http://localhost:63399/login");
+            return new DemoClient("http://localhost:63399/login");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

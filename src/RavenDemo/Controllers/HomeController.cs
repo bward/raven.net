@@ -10,9 +10,9 @@ namespace RavenDemo.Controllers
 {
     public class HomeController : Controller { 
     
-        private readonly RavenClient _client;
+        private readonly Client _client;
 
-        public HomeController(RavenClient client)
+        public HomeController(Client client)
         {
             _client = client;
         }
