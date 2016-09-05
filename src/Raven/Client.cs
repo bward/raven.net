@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net;
 
 namespace Raven
 {
-    public class RavenClient
+    public class Client
     {
+        protected const string BaseUrl = "https://raven.cam.ac.uk/auth/authenticate.html";
         private readonly string _url;
-        private const string BaseUrl = "https://demo.raven.cam.ac.uk/auth/authenticate.html";
 
-        public RavenClient(string url)
+        public Client(string url)
         {
             _url = url;
         }
