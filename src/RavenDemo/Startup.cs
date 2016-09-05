@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Raven;
 
 namespace RavenDemo
 {
@@ -35,8 +36,13 @@ namespace RavenDemo
         {
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
-
+            services.AddSingleton(RavenClientProvider);
             services.AddMvc();
+        }
+
+        public virtual RavenClient RavenClientProvider(IServiceProvider provider)
+        {
+            return new RavenClient("http://localhost:63399/login");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
