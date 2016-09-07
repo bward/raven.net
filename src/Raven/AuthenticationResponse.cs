@@ -19,5 +19,7 @@ namespace Raven
         public string Params;
         public string Kid;
         public string Sig;
+
+        public string Signed;
     }
 }

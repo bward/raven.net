@@ -1,5 +1,10 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Linq;
 using System.Net;
+using System.Security.Cryptography;
+using System.Text;
+using Raven.Keys;
 
 namespace Raven
 {
@@ -19,9 +24,11 @@ namespace Raven
             return new Uri(BaseUrl + queryString);
         }
 
-        public AuthenticationResponse ParseResponse(string response)
+        public AuthenticationResponse ParseResponse(string data)
         {
-            var parameters = response.Split('!');
+            var parameters = data.Split('!');
+            var signed = string.Join("!", parameters.Take(12));
+
             return new AuthenticationResponse
             {
                 Ver = int.Parse(parameters[0]),
@@ -37,8 +44,21 @@ namespace Raven
                 Life = parameters[10],
                 Params = parameters[11],
                 Kid = parameters[12],
-                Sig = parameters[13]
+                Sig = parameters[13].Replace('-', '+').Replace('.', '/').Replace('_', '='),
+                Signed = signed
             };
+        }
+
+        public bool Verify(AuthenticationResponse response)
+        {
+            using (var rsa = KeyProvider.RSAFromKey(response.Kid))
+            {
+                return rsa.VerifyData(
+                    Encoding.ASCII.GetBytes(response.Signed),
+                    Convert.FromBase64String(response.Sig),
+                    HashAlgorithmName.SHA1,
+                    RSASignaturePadding.Pkcs1);
+            }
         }
     }
 }
