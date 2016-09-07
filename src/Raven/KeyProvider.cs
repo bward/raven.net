@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Diagnostics;
-using System.IO;
-using System.Reflection;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
-using System.Text;
 
-namespace Raven.Keys
+namespace Raven
 {
-    public class KeyProvider
+    internal class KeyProvider
     {
         private static string LoadKey(string key)
         {

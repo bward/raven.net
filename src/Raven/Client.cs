@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
-using System.Net;
 using System.Security.Cryptography;
 using System.Text;
-using Raven.Keys;
 
 namespace Raven
 {
     public class Client
     {
         protected virtual string BaseUrl => "https://raven.cam.ac.uk/auth/authenticate.html";
+        protected virtual string[] Kids => new [] {"2"};
         private readonly string _url;
 
         public Client(string url)
@@ -27,30 +26,25 @@ namespace Raven
         public AuthenticationResponse ParseResponse(string data)
         {
             var parameters = data.Split('!');
-            var signed = string.Join("!", parameters.Take(12));
-
-            return new AuthenticationResponse
-            {
-                Ver = int.Parse(parameters[0]),
-                Status = (HttpStatusCode) int.Parse(parameters[1]),
-                Msg = parameters[2],
-                Issue = parameters[3],
-                Id = parameters[4],
-                Url = new Uri(Uri.UnescapeDataString(parameters[5])),
-                Principal = parameters[6],
-                Ptags = parameters[7].Split(','),
-                Auth = parameters[8],
-                Sso = parameters[9],
-                Life = parameters[10],
-                Params = parameters[11],
-                Kid = parameters[12],
-                Sig = parameters[13].Replace('-', '+').Replace('.', '/').Replace('_', '='),
-                Signed = signed
-            };
+            return AuthenticationResponse.AuthenticationResponseFromParameters(parameters);
         }
 
         public bool Verify(AuthenticationResponse response)
         {
+            if (!Kids.Contains(response.Kid))
+                return false;
+
+            var now = DateTime.UtcNow;
+            var difference = now.Subtract(response.Issue);
+            if (difference.TotalSeconds > 30)
+                return false;
+
+            if (response.Auth != "pwd" && response.Sso != "pwd")
+                return false;
+
+            if (response.Url != _url)
+                return false;
+
             using (var rsa = KeyProvider.RSAFromKey(response.Kid))
             {
                 return rsa.VerifyData(
