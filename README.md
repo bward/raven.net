@@ -6,7 +6,7 @@ With raven.net, the University of Cambridge [Raven authentication service](https
 
 The library provides various features which can be used either individually to integrate Raven into a pre-existing authentication system, or together for a ready-to-use authentication package. A [demo project](/src/RavenDemo) demonstrating everything below is available.
 
-# Quick start
+## Quick start
 Import the library with ```using BJW.Raven;```.
 Inject a WebAuthClient:
 ~~~~ cs
@@ -29,3 +29,39 @@ app.UseCookieAuthentication(CookieAuthentication.DefaultOptions);
 ~~~~
 
 Raven authentication is now enabled - to use it, just add ```[Authorise]``` attributes to to controllers which require authentication to access.
+
+## Reference
+### WebAuthClient
+~~~~ cs
+public WebAuthClient(baseUrl, redirectUrl)
+~~~~
+A client which performs Raven authentication
+
+* ```baseUrl```: the FQDN of your app
+* ```redirectUrl```: the (relative) URL to redirect to upon successful authentication
+
+---
+~~~~ cs
+public Uri AuthenticationUrl(string desc = "")
+~~~~
+Returns the address of the Raven login form.
+* ```desc```: optional description displayed to the user at the login prompt
+
+---
+~~~~ cs
+public AuthenticationResponse ParseResponse(string data)
+~~~~
+Returns an ```AuthenticationResponse``` object given
+* ```data```: the raw data recieved back from Raven
+
+---
+~~~~ cs
+public bool Verify(AuthenticationResponse response)
+~~~~
+Verifies an ```AuthenticationResponse``` as described in the [protocol documentation](http://raven.cam.ac.uk/project/waa2wls-protocol.txt)
+
+### DemoWebAuthClient
+~~~~ cs
+public DemoWebAuthClient(baseUrl, redirectUrl)
+~~~~
+A client which connects to the [demonstration authentication service](http://demo.raven.cam.ac.uk)
