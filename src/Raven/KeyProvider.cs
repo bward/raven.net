@@ -18,7 +18,7 @@ namespace Raven
         {
             var encoded = LoadKey(key);
             var certificate = new X509Certificate2(Convert.FromBase64String(encoded));
-            return RSACertificateExtensions.GetRSAPublicKey(certificate);
+            return certificate.GetRSAPublicKey();
         }
     }
 }

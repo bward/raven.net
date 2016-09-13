@@ -21,14 +21,12 @@ namespace Raven.Controllers
 
         public IActionResult Unauthorised()
         {
-            Debug.WriteLine("Raven unauthorised");
             return Redirect(_client.AuthenticationUrl().AbsoluteUri);
         }
 
         public async Task<IActionResult> Login([Bind(Prefix = "WLS-Response")] string parameters)
         {
             var response = _client.ParseResponse(parameters);
-            Debug.WriteLine(_client.Verify(response));
 
             if (_client.Verify(response))
             {
@@ -36,8 +34,6 @@ namespace Raven.Controllers
                 claims.Add(new Claim(ClaimTypes.Name, response.Principal));
                 var identity = new ClaimsIdentity(claims, "RavenCookieMiddlewareInstance");
                 await HttpContext.Authentication.SignInAsync("RavenCookieMiddlewareInstance", new ClaimsPrincipal(identity));
-                Debug.WriteLine("logged in!");
-                Debug.WriteLine(_client.RedirectUrl);
             }
 
             return Redirect(_client.RedirectUrl);
