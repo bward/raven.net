@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -34,12 +35,13 @@ namespace RavenDemo
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
             services.AddSingleton(RavenClientProvider);
-            services.AddMvc();
+            services.AddMvc()
+                .AddApplicationPart(Assembly.Load(new AssemblyName("Raven")));
         }
 
         public virtual Client RavenClientProvider(IServiceProvider provider)
         {
-            return new DemoClient("http://localhost:63399/login");
+            return new DemoClient("http://localhost:63399", "/private");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,7 +65,7 @@ namespace RavenDemo
             app.UseApplicationInsightsExceptionTelemetry();
 
             app.UseStaticFiles();
-
+            app.UseCookieAuthentication(Cookies.AuthenticationOptions);
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

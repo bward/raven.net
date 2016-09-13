@@ -8,18 +8,21 @@ namespace Raven
 {
     public class Client
     {
+        public string RedirectUrl => _baseUrl + _redirectUrl;
         protected virtual string BaseUrl => "https://raven.cam.ac.uk/auth/authenticate.html";
         protected virtual string[] Kids => new [] {"2"};
-        private readonly string _url;
+        private readonly string _baseUrl;
+        private readonly string _redirectUrl;
 
-        public Client(string url)
+        public Client(string baseUrl, string redirectUrl)
         {
-            _url = url;
+            _baseUrl = baseUrl;
+            _redirectUrl = redirectUrl;
         }
 
         public Uri AuthenticationUrl(string desc = "")
         {
-            var queryString = Uri.EscapeUriString("?ver=3&url=" + _url + "&desc=" + desc);
+            var queryString = Uri.EscapeUriString("?ver=3&url=" + _baseUrl + "/raven/login" + "&desc=" + desc);
             return new Uri(BaseUrl + queryString);
         }
 
@@ -42,7 +45,7 @@ namespace Raven
             if (response.Auth != "pwd" && response.Sso != "pwd")
                 return false;
 
-            if (response.Url != _url)
+            if (response.Url != _baseUrl + "/raven/login")
                 return false;
 
             using (var rsa = KeyProvider.RSAFromKey(response.Kid))
