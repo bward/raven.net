@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Net;
 
-namespace Raven
+namespace BJW.Raven
 {
     public class AuthenticationResponse
     {

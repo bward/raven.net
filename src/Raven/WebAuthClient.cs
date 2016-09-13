@@ -4,9 +4,9 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Raven
+namespace BJW.Raven
 {
-    public class Client
+    public class WebAuthClient
     {
         public string RedirectUrl => _baseUrl + _redirectUrl;
         protected virtual string BaseUrl => "https://raven.cam.ac.uk/auth/authenticate.html";
@@ -14,7 +14,7 @@ namespace Raven
         private readonly string _baseUrl;
         private readonly string _redirectUrl;
 
-        public Client(string baseUrl, string redirectUrl)
+        public WebAuthClient(string baseUrl, string redirectUrl)
         {
             _baseUrl = baseUrl;
             _redirectUrl = redirectUrl;

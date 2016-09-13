@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 
-namespace Raven
+namespace BJW.Raven
 {
-    public class Cookies
+    public class CookieAuthentication
     {
-        public static CookieAuthenticationOptions AuthenticationOptions =>
+        public static CookieAuthenticationOptions DefaultOptions =>
             new CookieAuthenticationOptions
             {
                 AuthenticationScheme = "RavenCookieMiddlewareInstance",

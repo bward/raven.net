@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 
-namespace Raven
+namespace BJW.Raven
 {
     internal class KeyProvider
     {

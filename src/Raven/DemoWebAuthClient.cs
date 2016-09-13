@@ -1,9 +1,9 @@
-﻿namespace Raven
+﻿namespace BJW.Raven
 {
-    public class DemoClient : Client
+    public class DemoWebAuthClient : WebAuthClient
     {
         protected override string BaseUrl => "https://demo.raven.cam.ac.uk/auth/authenticate.html";
         protected override string[] Kids => new[] { "901" };
-        public DemoClient(string baseUrl, string redirectUrl) : base(baseUrl, redirectUrl) { }
+        public DemoWebAuthClient(string baseUrl, string redirectUrl) : base(baseUrl, redirectUrl) { }
     }
 }

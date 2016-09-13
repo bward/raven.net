@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Raven {
+namespace BJW.Raven {
     using System;
     using System.Reflection;
     

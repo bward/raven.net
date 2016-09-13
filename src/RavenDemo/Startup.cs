@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Raven;
+using BJW.Raven;
 
 namespace RavenDemo
 {
@@ -39,9 +39,9 @@ namespace RavenDemo
                 .AddApplicationPart(Assembly.Load(new AssemblyName("Raven")));
         }
 
-        public virtual Client RavenClientProvider(IServiceProvider provider)
+        public virtual WebAuthClient RavenClientProvider(IServiceProvider provider)
         {
-            return new DemoClient("http://localhost:63399", "/private");
+            return new DemoWebAuthClient("http://localhost:63399", "/private");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,7 +65,7 @@ namespace RavenDemo
             app.UseApplicationInsightsExceptionTelemetry();
 
             app.UseStaticFiles();
-            app.UseCookieAuthentication(Cookies.AuthenticationOptions);
+            app.UseCookieAuthentication(CookieAuthentication.DefaultOptions);
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

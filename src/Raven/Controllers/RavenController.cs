@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Raven;
+using BJW.Raven;
 using System.Diagnostics;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
-namespace Raven.Controllers
+namespace BJW.Raven.Controllers
 {
     public class RavenController : Controller { 
     
-        private readonly Client _client;
+        private readonly WebAuthClient _client;
 
-        public RavenController(Client client)
+        public RavenController(WebAuthClient client)
         {
             _client = client;
         }
