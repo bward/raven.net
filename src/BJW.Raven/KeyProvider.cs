@@ -8,7 +8,7 @@ namespace BJW.Raven
     {
         private static string LoadKey(string key)
         {
-            return Resource.ResourceManager.GetString("pub" + key + "x509")
+            return Certificates.ResourceManager.GetString("pub" + key + "x509")
                 .Replace("-----BEGIN CERTIFICATE-----", "")
                 .Replace("-----END CERTIFICATE-----", "")
                 .Replace("\n", "");

@@ -22,13 +22,13 @@ namespace BJW.Raven {
     // with the /str option, or rebuild your VS project.
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Resource {
+    public class Certificates {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
-        internal Resource() {
+        internal Certificates() {
         }
         
         /// <summary>
@@ -38,7 +38,7 @@ namespace BJW.Raven {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Raven.Resource", typeof(Resource).GetTypeInfo().Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BJW.Raven.Certificates", typeof(Certificates).GetTypeInfo().Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -68,7 +68,7 @@ namespace BJW.Raven {
         ///Fw0wNDA4MTAxMzM1MjNaFw0wNDA5MDkxMzM1MjNaMIGcMQswCQYDVQQGEwJHQjEQ
         ///MA4GA1UECBMHRW5nbGFuZDESMBAGA1UEBxMJQ2FtYnJpZGdlMSAwHgYDVQQKExdV
         ///bml2ZXJzaXR5IG9mIENhbWJyaWRnZTEoMCYGA1UECxMfQ29tcHV0aW5nIFNlcnZp
-        ///Y2UgUmF2ZW4gU2VydmljZTEbMBkGA [rest of string was truncated]&quot;;.
+        ///Y2UgUmF2ZW4gU2VydmljZ [rest of string was truncated]&quot;;.
         /// </summary>
         public static string pub2x509 {
             get {
@@ -85,7 +85,7 @@ namespace BJW.Raven {
         ///aWMga2V5IDEwHhcNMDUwNzI2MTMyMTIwWhcNMDUwODI1MTMyMTIwWjCBpjELMAkG
         ///A1UEBhMCR0IxEDAOBgNVBAgTB0VuZ2xhbmQxEjAQBgNVBAcTCUNhbWJyaWRnZTEg
         ///MB4GA1UEChMXVW5pdmVyc2l0eSBvZiBDYW1icmlkZ2UxLTArBgNVBAsTJENvbXB1
-        ///dGluZyBTZXJ2aWNlIERFTU8gUmF2Z [rest of string was truncated]&quot;;.
+        ///dGluZyBTZXJ2aWNlIERFT [rest of string was truncated]&quot;;.
         /// </summary>
         public static string pub901x509 {
             get {

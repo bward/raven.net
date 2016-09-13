@@ -36,10 +36,10 @@ namespace RavenDemo
             services.AddApplicationInsightsTelemetry(Configuration);
             services.AddSingleton(RavenClientProvider);
             services.AddMvc()
-                .AddApplicationPart(Assembly.Load(new AssemblyName("Raven")));
+                .AddApplicationPart(Assembly.Load(new AssemblyName("BJW.Raven")));
         }
 
-        public virtual WebAuthClient RavenClientProvider(IServiceProvider provider)
+        public WebAuthClient RavenClientProvider(IServiceProvider provider)
         {
             return new DemoWebAuthClient("http://localhost:63399", "/private");
         }
