@@ -28,8 +28,9 @@ namespace BJW.Raven
 
         public static AuthenticationResponse AuthenticationResponseFromParameters(string[] parameters)
         {
-            Debug.WriteLine(Uri.UnescapeDataString("returnUrl%3D%2Fprivate"));
-            Debug.WriteLine(Uri.EscapeDataString("returnUrl=/private"));
+            var protocolVersion = int.Parse(parameters[0]);
+            var indexOffset = protocolVersion == 3 ? 0 : -1;
+
             return new AuthenticationResponse
             {
                 Ver = int.Parse(parameters[0]),
@@ -39,15 +40,15 @@ namespace BJW.Raven
                 Id = parameters[4],
                 Url = Uri.UnescapeDataString(parameters[5]),
                 Principal = parameters[6],
-                Ptags = parameters[7].Split(','),
-                Auth = parameters[8],
-                Sso = parameters[9],
-                Life = parameters[10],
-                Params = QueryHelpers.ParseQuery(Uri.UnescapeDataString(parameters[11])),
-                Kid = parameters[12],
-                Sig = parameters[13].Replace('-', '+').Replace('.', '/').Replace('_', '='),
-                Signed = string.Join("!", parameters.Take(12))
-        };
+                Ptags = protocolVersion == 3 ? parameters[7].Split(',') : null,
+                Auth = parameters[8 + indexOffset],
+                Sso = parameters[9 + indexOffset],
+                Life = parameters[10 + indexOffset],
+                Params = QueryHelpers.ParseQuery(Uri.UnescapeDataString(parameters[11 + indexOffset])),
+                Kid = parameters[12 + indexOffset],
+                Sig = parameters[13 + indexOffset].Replace('-', '+').Replace('.', '/').Replace('_', '='),
+                Signed = string.Join("!", parameters.Take(12 + indexOffset))
+            };
         }
 
         private static DateTime ParseIssue(string issue)
