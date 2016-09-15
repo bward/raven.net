@@ -17,9 +17,9 @@ namespace BJW.Raven
             _hostName = hostName;
         }
 
-        public string AuthenticationUrl(string returnUrl = "/", string desc = "")
+        public string AuthenticationUrl(string returnUrl = "/", string failureUrl = "/", string desc = "")
         {
-            var queryString = "?ver=3&url=" + _hostName + "/raven/login" + "&desc=" + Uri.EscapeDataString(desc) + "&params=" + Uri.EscapeDataString("returnUrl=" + returnUrl);
+            var queryString = "?ver=3&url=" + _hostName + "/raven/login" + "&desc=" + Uri.EscapeDataString(desc) + "&params=" + Uri.EscapeDataString("returnUrl=" + returnUrl + "&failureUrl=" + failureUrl);
             return BaseUrl + queryString;
         }
 

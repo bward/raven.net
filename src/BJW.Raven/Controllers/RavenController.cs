@@ -21,18 +21,26 @@ namespace BJW.Raven.Controllers
 
         public IActionResult Unauthorised(string returnUrl)
         {
-            return Redirect(_client.AuthenticationUrl(returnUrl));
+            var failureUrl = new Uri(Request.Headers["Referer"].ToString() ?? "/");
+            return Redirect(_client.AuthenticationUrl(returnUrl, failureUrl.AbsolutePath));
         }
 
         public async Task<IActionResult> Login([Bind(Prefix = "WLS-Response")] string parameters)
         {
             var response = _client.ParseResponse(parameters);
-            
+
             if (_client.Verify(response))
             {
                 var claims = new List<Claim> {new Claim(ClaimTypes.Name, response.Principal)};
                 var identity = new ClaimsIdentity(claims, "RavenCookieMiddlewareInstance");
-                await HttpContext.Authentication.SignInAsync("RavenCookieMiddlewareInstance", new ClaimsPrincipal(identity));
+                await
+                    HttpContext.Authentication.SignInAsync("RavenCookieMiddlewareInstance",
+                        new ClaimsPrincipal(identity));
+            }
+            else
+            {
+
+                return RedirectToAction("LoginFailed", new {returnUrl = response.Params["failureUrl"]});
             }
             
             return Redirect(response.Params["returnUrl"]);
@@ -42,6 +50,12 @@ namespace BJW.Raven.Controllers
         {
             await HttpContext.Authentication.SignOutAsync("RavenCookieMiddlewareInstance");
             return Redirect("/");
+        }
+
+        public IActionResult LoginFailed(string returnUrl)
+        {
+            ViewData["returnUrl"] = returnUrl;
+            return View();
         }
     }
 }
