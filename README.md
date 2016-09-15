@@ -12,7 +12,7 @@ Inject a WebAuthClient:
 ~~~~ cs
 public WebAuthClient RavenClientProvider(IServiceProvider provider)
 {
-  return new DemoWebAuthClient("http://localhost:63399", "/private");
+  return new DemoWebAuthClient("http://localhost:63399");
 }
 ~~~~
 and then
@@ -33,12 +33,11 @@ Raven authentication is now enabled - to use it, just add ```[Authorise]``` attr
 ## Reference
 ### WebAuthClient
 ~~~~ cs
-public WebAuthClient(baseUrl, redirectUrl)
+public WebAuthClient(baseUrl)
 ~~~~
 A client which performs Raven authentication
 
 * ```baseUrl```: the FQDN of your app
-* ```redirectUrl```: the (relative) URL to redirect to upon successful authentication
 
 ---
 ~~~~ cs
@@ -58,10 +57,10 @@ Returns an ```AuthenticationResponse``` object given
 ~~~~ cs
 public bool Verify(AuthenticationResponse response)
 ~~~~
-Verifies an ```AuthenticationResponse``` as described in the [protocol documentation](http://raven.cam.ac.uk/project/waa2wls-protocol.txt)
+Verifies an ```AuthenticationResponse``` as described in the [protocol documentation](http://raven.cam.ac.uk/project/waa2wls-protocol.txt). Returns true if a user logged in successful, false otherwise.
 
 ### DemoWebAuthClient
 ~~~~ cs
-public DemoWebAuthClient(baseUrl, redirectUrl)
+public DemoWebAuthClient(baseUrl)
 ~~~~
 A client which connects to the [demonstration authentication service](http://demo.raven.cam.ac.uk)
