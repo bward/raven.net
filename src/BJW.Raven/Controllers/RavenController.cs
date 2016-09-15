@@ -39,10 +39,11 @@ namespace BJW.Raven.Controllers
             }
             else
             {
-
+                if (response.Status == HttpStatusCode.Gone)
+                    return Redirect(response.Params["failureUrl"]);
                 return RedirectToAction("LoginFailed", new {returnUrl = response.Params["failureUrl"]});
             }
-            
+
             return Redirect(response.Params["returnUrl"]);
         }
 
