@@ -4,7 +4,7 @@
 
 With raven.net, the University of Cambridge [Raven authentication service](https://raven.cam.ac.uk) can be easily integrated into any .NET Core application.
 
-The library provides various features which can be used either individually to integrate Raven into a pre-existing authentication system, or together for a ready-to-use authentication package. A [demo project](/src/RavenDemo) demonstrating everything below is available.
+The library provides various features which can be used either individually to integrate Raven into a pre-existing authentication system, or together for a ready-to-use authentication package (using ```Microsoft.AspNetCore.Authentication.Cookies```). A [demo project](/src/RavenDemo) demonstrating everything below is available.
 
 ## Quick start
 Import the library with ```using BJW.Raven;```.
