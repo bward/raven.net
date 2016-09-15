@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Net;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using BJW.Raven;
-using System.Diagnostics;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace BJW.Raven.Controllers
 {
-    public class RavenController : Controller { 
-    
+    public class RavenController : Controller
+    {
         private readonly WebAuthClient _client;
 
         public RavenController(WebAuthClient client)
