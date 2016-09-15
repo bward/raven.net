@@ -21,7 +21,6 @@ namespace BJW.Raven.Controllers
 
         public IActionResult Unauthorised(string returnUrl)
         {
-
             return Redirect(_client.AuthenticationUrl(returnUrl));
         }
 

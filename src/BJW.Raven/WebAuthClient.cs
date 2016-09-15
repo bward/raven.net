@@ -10,17 +10,16 @@ namespace BJW.Raven
     {
         protected virtual string BaseUrl => "https://raven.cam.ac.uk/auth/authenticate.html";
         protected virtual string[] Kids => new [] {"2"};
-        private readonly string _baseUrl;
+        private readonly string _hostName;
 
-        public WebAuthClient(string baseUrl)
+        public WebAuthClient(string hostName)
         {
-            _baseUrl = baseUrl;
-
+            _hostName = hostName;
         }
 
         public string AuthenticationUrl(string returnUrl = "/", string desc = "")
         {
-            var queryString = "?ver=3&url=" + _baseUrl + "/raven/login" + "&desc=" + Uri.EscapeDataString(desc) + "&params=" + Uri.EscapeDataString("returnUrl=" + returnUrl);
+            var queryString = "?ver=3&url=" + _hostName + "/raven/login" + "&desc=" + Uri.EscapeDataString(desc) + "&params=" + Uri.EscapeDataString("returnUrl=" + returnUrl);
             return BaseUrl + queryString;
         }
 
@@ -43,7 +42,7 @@ namespace BJW.Raven
             if (response.Auth != "pwd" && response.Sso != "pwd")
                 return false;
 
-            if (response.Url != _baseUrl + "/raven/login")
+            if (response.Url != _hostName + "/raven/login")
                 return false;
 
             using (var rsa = KeyProvider.RSAFromKey(response.Kid))
