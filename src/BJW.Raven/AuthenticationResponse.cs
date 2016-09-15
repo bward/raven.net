@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
+using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Primitives;
 
 namespace BJW.Raven
 {
@@ -17,13 +21,15 @@ namespace BJW.Raven
         public string Auth;
         public string Sso;
         public string Life;
-        public string Params;
+        public Dictionary<string, StringValues> Params;
         public string Kid;
         public string Sig;
         public string Signed;
 
         public static AuthenticationResponse AuthenticationResponseFromParameters(string[] parameters)
         {
+            Debug.WriteLine(Uri.UnescapeDataString("returnUrl%3D%2Fprivate"));
+            Debug.WriteLine(Uri.EscapeDataString("returnUrl=/private"));
             return new AuthenticationResponse
             {
                 Ver = int.Parse(parameters[0]),
@@ -37,7 +43,7 @@ namespace BJW.Raven
                 Auth = parameters[8],
                 Sso = parameters[9],
                 Life = parameters[10],
-                Params = parameters[11],
+                Params = QueryHelpers.ParseQuery(Uri.UnescapeDataString(parameters[11])),
                 Kid = parameters[12],
                 Sig = parameters[13].Replace('-', '+').Replace('.', '/').Replace('_', '='),
                 Signed = string.Join("!", parameters.Take(12))

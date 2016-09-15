@@ -41,7 +41,7 @@ namespace RavenDemo
 
         public WebAuthClient RavenClientProvider(IServiceProvider provider)
         {
-            return new DemoWebAuthClient("http://localhost:63399", "/private");
+            return new DemoWebAuthClient("http://localhost:63399");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

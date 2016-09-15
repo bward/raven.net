@@ -8,22 +8,20 @@ namespace BJW.Raven
 {
     public class WebAuthClient
     {
-        public string RedirectUrl => _baseUrl + _redirectUrl;
         protected virtual string BaseUrl => "https://raven.cam.ac.uk/auth/authenticate.html";
         protected virtual string[] Kids => new [] {"2"};
         private readonly string _baseUrl;
-        private readonly string _redirectUrl;
 
-        public WebAuthClient(string baseUrl, string redirectUrl)
+        public WebAuthClient(string baseUrl)
         {
             _baseUrl = baseUrl;
-            _redirectUrl = redirectUrl;
+
         }
 
-        public Uri AuthenticationUrl(string desc = "")
+        public string AuthenticationUrl(string returnUrl = "/", string desc = "")
         {
-            var queryString = Uri.EscapeUriString("?ver=3&url=" + _baseUrl + "/raven/login" + "&desc=" + desc);
-            return new Uri(BaseUrl + queryString);
+            var queryString = "?ver=3&url=" + _baseUrl + "/raven/login" + "&desc=" + Uri.EscapeDataString(desc) + "&params=" + Uri.EscapeDataString("returnUrl=" + returnUrl);
+            return BaseUrl + queryString;
         }
 
         public AuthenticationResponse ParseResponse(string data)

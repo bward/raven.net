@@ -19,24 +19,24 @@ namespace BJW.Raven.Controllers
             _client = client;
         }
 
-        public IActionResult Unauthorised()
+        public IActionResult Unauthorised(string returnUrl)
         {
-            return Redirect(_client.AuthenticationUrl().AbsoluteUri);
+
+            return Redirect(_client.AuthenticationUrl(returnUrl));
         }
 
         public async Task<IActionResult> Login([Bind(Prefix = "WLS-Response")] string parameters)
         {
             var response = _client.ParseResponse(parameters);
-
+            
             if (_client.Verify(response))
             {
-                var claims = new List<Claim>();
-                claims.Add(new Claim(ClaimTypes.Name, response.Principal));
+                var claims = new List<Claim> {new Claim(ClaimTypes.Name, response.Principal)};
                 var identity = new ClaimsIdentity(claims, "RavenCookieMiddlewareInstance");
                 await HttpContext.Authentication.SignInAsync("RavenCookieMiddlewareInstance", new ClaimsPrincipal(identity));
             }
-
-            return Redirect(_client.RedirectUrl);
+            
+            return Redirect(response.Params["returnUrl"]);
         }
 
         public async Task<IActionResult> Logout()

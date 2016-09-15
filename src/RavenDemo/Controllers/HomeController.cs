@@ -23,14 +23,14 @@ namespace RavenDemo.Controllers
         public IActionResult Index()
         {
             ViewData["Status"] = HttpContext.User.Identity.IsAuthenticated;
-            return View();
+            return View();      
         }
 
         [Authorize]
         [HttpGet("/private")]
         public IActionResult Private()
         {
-            ViewData["User"] = HttpContext.User.Identity.Name;
+            ViewData["User"] = User.Identity.Name;
             return View();
         }
     }
