@@ -2,6 +2,10 @@
   "title": "BJW.Raven",
   "version": "1.0.0-*",
 
+  "packOptions": {
+    "licenseUrl": "http://www.opensource.org/licenses/MIT"
+  },
+
   "dependencies": {
     "Microsoft.AspNetCore.Authentication.Cookies": "1.0.0",
     "Microsoft.AspNetCore.Mvc": "1.0.0"
