@@ -38,7 +38,8 @@ namespace BJW.Raven.Controllers
             {
                 if (response.Status == HttpStatusCode.Gone)
                     return Redirect(response.Params["failureUrl"]);
-                return RedirectToAction("LoginFailed", new {returnUrl = response.Params["failureUrl"]});
+                return RedirectToAction("LoginFailed",
+                    new {statusCode = (int) response.Status, returnUrl = response.Params["failureUrl"]});
             }
 
             return Redirect(response.Params["returnUrl"]);
@@ -50,9 +51,15 @@ namespace BJW.Raven.Controllers
             return Redirect("/");
         }
 
-        public IActionResult LoginFailed(string returnUrl)
+        public IActionResult LoginFailed(string statusCode, string returnUrl)
         {
+            ViewData["statusCode"] = statusCode;
             ViewData["returnUrl"] = returnUrl;
+            return View();
+        }
+
+        public IActionResult Forbidden()
+        {
             return View();
         }
     }

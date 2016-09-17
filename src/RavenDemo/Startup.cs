@@ -5,7 +5,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.FileProviders;
 using BJW.Raven;
+using Microsoft.AspNetCore.Mvc.Razor;
 
 namespace RavenDemo
 {
@@ -35,8 +37,19 @@ namespace RavenDemo
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
             services.AddSingleton(RavenClientProvider);
+
+            // Get the BJW.Raven assembly
+            var ravenAssembly = Assembly.Load(new AssemblyName("BJW.Raven"));
+
+            // Load the views
+            services.Configure<RazorViewEngineOptions>(options =>
+            {
+                options.FileProviders.Add(new EmbeddedFileProvider(ravenAssembly));
+            });
+
+            // Load the controllers
             services.AddMvc()
-                .AddApplicationPart(Assembly.Load(new AssemblyName("BJW.Raven")));
+                .AddApplicationPart(ravenAssembly);
         }
 
         public WebAuthClient RavenClientProvider(IServiceProvider provider)
@@ -65,7 +78,10 @@ namespace RavenDemo
             app.UseApplicationInsightsExceptionTelemetry();
 
             app.UseStaticFiles();
+
+            // Use Raven authentication
             app.UseCookieAuthentication(CookieAuthentication.DefaultOptions);
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

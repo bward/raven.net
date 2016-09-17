@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -32,18 +33,14 @@ namespace BJW.Raven
 
         public bool Verify(AuthenticationResponse response)
         {
-            if (!Kids.Contains(response.Kid))
-                return false;
-
             var now = DateTime.UtcNow;
             var difference = now.Subtract(response.Issue);
-            if (difference.TotalSeconds > 30)
-                return false;
 
-            if ((response.Auth != "pwd") && (response.Sso != "pwd"))
-                return false;
-
-            if (response.Url != _hostName + "/raven/login")
+            if (!Kids.Contains(response.Kid) ||
+                (response.Status != HttpStatusCode.OK) ||
+                (difference.TotalSeconds > 30) ||
+                ((response.Auth != "pwd") && (response.Sso != "pwd")) ||
+                (response.Url != _hostName + "/raven/login"))
                 return false;
 
             using (var rsa = KeyProvider.RSAFromKey(response.Kid))

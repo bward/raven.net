@@ -9,8 +9,8 @@ namespace BJW.Raven
             new CookieAuthenticationOptions
             {
                 AuthenticationScheme = "RavenCookieMiddlewareInstance",
-                LoginPath = new PathString("/Raven/Unauthorised/"),
-                AccessDeniedPath = new PathString("/Raven/Forbidden/"),
+                LoginPath = new PathString("/raven/unauthorised/"),
+                AccessDeniedPath = new PathString("/raven/forbidden/"),
                 AutomaticAuthenticate = true,
                 AutomaticChallenge = true
             };
