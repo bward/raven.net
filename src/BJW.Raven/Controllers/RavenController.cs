@@ -18,8 +18,9 @@ namespace BJW.Raven.Controllers
 
         public IActionResult Unauthorised(string returnUrl)
         {
-            var failureUrl = new Uri(Request.Headers["Referer"].ToString() ?? "/");
-            return Redirect(_client.AuthenticationUrl(returnUrl, failureUrl.AbsolutePath));
+            var referer = Request.Headers["Referer"].ToString();
+            var failureUrl = referer != "" ? referer : "/";
+            return Redirect(_client.AuthenticationUrl(returnUrl, failureUrl));
         }
 
         public async Task<IActionResult> Login([Bind(Prefix = "WLS-Response")] string parameters)
